@@ -39,10 +39,10 @@ class TopNewsTableViewController: UITableViewController {
         ApiService.shared.readAll { (response) in
             if response.totalResults > response.articles.count {
                 self.hasMorePages = true
-                self.currentPage = 1
             } else {
                 self.hasMorePages = false
             }
+            self.currentPage = 1
             self.articles = response.articles
             DispatchQueue.main.async {
                 self.tableView.reloadData()
