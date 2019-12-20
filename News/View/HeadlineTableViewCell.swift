@@ -43,12 +43,14 @@ class HeadlineTableViewCell: UITableViewCell {
             if let urlString = unwrappedCell.urlToImage {
                 thumbnailImageView.loadImageUsingUrlString(urlString: urlString)
             }
-            let content = unwrappedCell.content
-            if let index = content.range(of: "[")?.lowerBound{
-                let substring = content[..<index]
-                let string = String(substring)
-                contentLabel.text = string
+            if let content = unwrappedCell.content {
+                if let index = content.range(of: "[")?.lowerBound{
+                    let substring = content[..<index]
+                    let string = String(substring)
+                    contentLabel.text = string
+                }
             }
+            
             sourceLabel.text = unwrappedCell.source.name
         }
     }

@@ -8,13 +8,19 @@
 
 import UIKit
 
-class TopNewsTableViewController: UITableViewController {
+class TopNewsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
     // MARK: - Properties
     let cellId = "cellId"
     var articles: Array<Article> = []
     var hasMorePages = false
     var currentPage = 1
+    
+    var titles: Array<String>  = []
+    var authors: Array<String>  = []
+    var content: Array<String> = []
+    var matches: Array<Int> = []
+    var searching = false
     
     // MARK: Events
     override func viewDidLoad() {
@@ -44,6 +50,7 @@ class TopNewsTableViewController: UITableViewController {
             }
             self.currentPage = 1
             self.articles = response.articles
+            self.createSearchableObjects()
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -56,6 +63,7 @@ class TopNewsTableViewController: UITableViewController {
             if self.articles.count < response.totalResults {
                 self.currentPage += 1
                 self.articles += response.articles
+                self.createSearchableObjects()
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -70,6 +78,8 @@ class TopNewsTableViewController: UITableViewController {
     private func setupNavbar(){
         navigationItem.title = "Top News"
         navigationItem.largeTitleDisplayMode = .always
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
         // Refresh control setup
         let refreshControl = UIRefreshControl()
@@ -78,15 +88,54 @@ class TopNewsTableViewController: UITableViewController {
         refreshControl.addTarget(self, action: #selector(refreshOptions(sender:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    
+    // MARK: - Search
+    private func createSearchableObjects(){
+        titles = articles.map{$0.title.lowercased()}
+        authors = articles.map{$0.author?.lowercased() ?? ""}
+        content = articles.map{$0.content?.lowercased() ?? ""}
+    }
+    
+    lazy var searchController: UISearchController = { [weak self] in
+        let sc = UISearchController(searchResultsController: nil)
+        sc.searchBar.delegate = self
+        sc.searchResultsUpdater = self
+        sc.obscuresBackgroundDuringPresentation = false
+        sc.searchBar.placeholder = "Search Story"
+        sc.searchBar.tintColor = .darkGray
+        return sc
+    }()
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            matches.removeAll()
+            
+            for index in 0..<articles.count {
+                if titles[index].contains(searchText.lowercased()) || authors[index].contains(searchText.lowercased()) ||  content[index].contains(searchText.lowercased()){
+                    matches.append(index)
+                }
+            }
+             searching = true
+        } else {
+            searching = false
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searching = false
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 
+    // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articles.count
+        return searching ? matches.count : articles.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -95,7 +144,8 @@ class TopNewsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! HeadlineTableViewCell
-        let article = articles[indexPath.row]
+        let row = indexPath.row
+        let article = searching ? articles[matches[row]] : articles[row]
         cell.cell = article
         return cell
     }

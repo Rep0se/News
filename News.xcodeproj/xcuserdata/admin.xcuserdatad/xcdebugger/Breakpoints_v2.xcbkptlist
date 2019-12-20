@@ -14,9 +14,9 @@
             filePath = "News/Controller/TopNewsTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "handleRefresh()"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "refreshOptions(sender:)"
             landmarkType = "7">
             <Locations>
                <Location
