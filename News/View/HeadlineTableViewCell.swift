@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class HeadlineTableViewCell: UITableViewCell {
     
@@ -24,7 +25,15 @@ class HeadlineTableViewCell: UITableViewCell {
     // MARK: - Properties
     var cell: Article? {
         didSet{
-            guard let unwrappedCell = cell else { return }
+            guard let unwrappedCell = cell else {
+                titleLabel.text = nil
+                authorLabel.text = nil
+                dateLabel.text = nil
+                thumbnailImageView.image = nil
+                contentLabel.text = nil
+                sourceLabel.text = nil
+                return
+            }
             titleLabel.text = unwrappedCell.title
             authorLabel.text = unwrappedCell.author
             
@@ -41,7 +50,9 @@ class HeadlineTableViewCell: UITableViewCell {
             }
             
             if let urlString = unwrappedCell.urlToImage {
-                thumbnailImageView.loadImageUsingUrlString(urlString: urlString)
+//                thumbnailImageView.loadImageUsingUrlString(urlString: urlString)
+                let url = URL(string: urlString)
+                thumbnailImageView.kf.setImage(with: url)
             }
             if let content = unwrappedCell.content {
                 if let index = content.range(of: "[")?.lowerBound{
@@ -53,6 +64,11 @@ class HeadlineTableViewCell: UITableViewCell {
             
             sourceLabel.text = unwrappedCell.source.name
         }
+    }
+    
+    override func prepareForReuse() {
+        cell = nil
+        super.prepareForReuse()
     }
     
     // MARK: - UI Objects

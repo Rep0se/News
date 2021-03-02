@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84821D5325EEB5E500EE9A79 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 84821D5225EEB5E500EE9A79 /* Kingfisher */; };
 		8495F52223AC3F0D0040F7C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8495F52123AC3F0D0040F7C6 /* AppDelegate.swift */; };
 		8495F52423AC3F0D0040F7C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8495F52323AC3F0D0040F7C6 /* SceneDelegate.swift */; };
 		8495F52B23AC3F120040F7C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8495F52A23AC3F120040F7C6 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84821D5325EEB5E500EE9A79 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +129,9 @@
 			dependencies = (
 			);
 			name = News;
+			packageProductDependencies = (
+				84821D5225EEB5E500EE9A79 /* Kingfisher */,
+			);
 			productName = News;
 			productReference = 8495F51E23AC3F0D0040F7C6 /* News.app */;
 			productType = "com.apple.product-type.application";
@@ -155,6 +160,9 @@
 				Base,
 			);
 			mainGroup = 8495F51523AC3F0D0040F7C6;
+			packageReferences = (
+				84821D5125EEB5E500EE9A79 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 8495F51F23AC3F0D0040F7C6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -325,7 +333,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = M8TURMP4NS;
 				INFOPLIST_FILE = News/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -344,7 +352,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = M8TURMP4NS;
 				INFOPLIST_FILE = News/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -380,6 +388,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		84821D5125EEB5E500EE9A79 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		84821D5225EEB5E500EE9A79 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84821D5125EEB5E500EE9A79 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8495F51623AC3F0D0040F7C6 /* Project object */;
 }
